@@ -67,6 +67,14 @@ class View {
 
     return element;
   }
+
+  get _itemText() {
+    return this.input.value;
+  }
+
+  _resetInput() {
+    this.input.value = '';
+  }
 }
 
 class Controller {
