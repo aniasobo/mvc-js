@@ -68,6 +68,46 @@ class View {
     return element;
   }
 
+  displayList(list) {
+    while (this.itemList.firstChild) {
+      this.itemList.removeChild(this.itemList.firstChild);
+    }
+
+    if (list.length === 0) {
+      const p = this.createDOMelement('p');
+      p.textContent = 'Nothing to check here, add some todos!';
+      this.itemList.append(p);
+    } else {
+      list.forEach(item => {
+        const li = this.createDOMelement('li');
+        li.id = item.id;
+
+        const checkbox = this.createDOMelement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = item.complete;
+
+        const span = this.createDOMelement('span');
+        span.contentEditable = true;
+        span.classList.add('editable');
+
+        if (item.complete) {
+          const strike = this.createDOMelement('s');
+          strike.textContent = item.text;
+          span.append(strike);
+        } else {
+          span.textContent = item.text;
+        }
+
+        const deleteButton = this.createDOMelement('button', 'delete');
+        deleteButton.textContent = 'Delete';
+
+        li.append(checkbox, span, deleteButton);
+
+        this.itemList.append(li);
+      })
+    }
+  }
+
   get _itemText() {
     return this.input.value;
   }
