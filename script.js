@@ -127,6 +127,22 @@ class Controller {
   onChange = list => {
     this.view.displayList(list);
   }
+
+  handleAddition = text => {
+    this.model.addItem(text);
+  }
+
+  handleEdition = (id, text) => {
+    this.model.editItem(id, text);
+  }
+
+  handleDeletion = id => {
+    this.model.deleteItem(id);
+  }
+
+  handleToggle = id => {
+    this.model.toggleCheckOnItem(id);
+  }
 }
 
 const app = new Controller(new Model(), new View());
