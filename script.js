@@ -108,6 +108,35 @@ class View {
     }
   }
 
+  bindAddItem(handler) {
+    this.form.addEventListener('submit', event => {
+      event.preventDefault();
+
+      if (this._itemText) {
+        handler(this._itemText);
+        this._resetInput;
+      }
+    });
+  }
+
+  bindDeleteItem(handler) {
+    this.list.addEventListener('click', event => {
+      if (event.target.className === 'delete') {
+        const id = parseInt(event.target.parentElement.id);
+        handler(id);
+      }
+    });
+  }
+
+  bindToggleItem(handler) {
+    this.list.addEventListener('change', event => {
+      if (event.target.type === 'checkbox') {
+        const id = parseInt(event.target.parentElement.id);
+        handler(id);
+      }
+    });
+  }
+
   get _itemText() {
     return this.input.value;
   }
@@ -122,12 +151,17 @@ class Controller {
     this.model = model;
     this.view = view;
     this.onChange = (this.model.list);
+    this.view.bindAddItem(this.handleAddition);
+    this.view.bindDeleteItem(this.handleDeletion);
+    this.view.bindToggleItem(this.handleToggle);
   }
 
   onChange = list => {
     this.view.displayList(list);
   }
 
+  // using arrow notation on handlers so that they can be called from the View using this keyword
+  // withouth having to add .bind(this)
   handleAddition = text => {
     this.model.addItem(text);
   }
@@ -143,6 +177,7 @@ class Controller {
   handleToggle = id => {
     this.model.toggleCheckOnItem(id);
   }
+  
 }
 
 const app = new Controller(new Model(), new View());
