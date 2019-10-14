@@ -50,9 +50,9 @@ class View {
     this.form.append(this.input, this.submitButton);
 
     // list element
-    this.itemList = this.createDOMelement('ul', 'checklist');
+    this.list = this.createDOMelement('ul', 'checklist');
 
-    this.app.append(this.title, this.form, this.itemList);
+    this.app.append(this.title, this.form, this.list);
   }
 
   createDOMelement(tag, className) {
@@ -69,14 +69,14 @@ class View {
   }
 
   displayList(list) {
-    while (this.itemList.firstChild) {
-      this.itemList.removeChild(this.itemList.firstChild);
+    while (this.list.firstChild) {
+      this.list.removeChild(this.list.firstChild);
     }
 
     if (list.length === 0) {
       const p = this.createDOMelement('p');
       p.textContent = 'Nothing to check here, add some todos!';
-      this.itemList.append(p);
+      this.list.append(p);
     } else {
       list.forEach(item => {
         const li = this.createDOMelement('li');
@@ -103,7 +103,7 @@ class View {
 
         li.append(checkbox, span, deleteButton);
 
-        this.itemList.append(li);
+        this.list.append(li);
       })
     }
   }
@@ -121,6 +121,11 @@ class Controller {
   constructor(model, view) {
     this.model = model;
     this.view = view;
+    this.onChange = (this.model.list);
+  }
+
+  onChange = list => {
+    this.view.displayList(list);
   }
 }
 
