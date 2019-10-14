@@ -31,6 +31,19 @@ class Model {
 
 class View {
   constructor() {}
+
+  createDOMelement(tag, className) {
+    const element = document.createElement(tag);
+    if (className) element.classList.add(className);
+
+    return element;
+  }
+
+  getDOMelement(selector) {
+    const element = document.querySelector(selector);
+
+    return element;
+  }
 }
 
 class Controller {
