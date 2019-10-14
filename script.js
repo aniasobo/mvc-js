@@ -30,7 +30,30 @@ class Model {
 }
 
 class View {
-  constructor() {}
+  constructor() {
+    // root
+    this.app = this.getDOMelement('#root');
+
+    // title
+    this.title = this.createDOMelement('h1');
+    this.title.textContent = 'Checklist App';
+
+    // form with input and submit
+    this.form = this.createDOMelement('form');
+    this.input = this.createDOMelement('input');
+    this.input.type = 'text';
+    this.input.placeholder = 'add item';
+    this.input.name = 'new item';
+    this.submitButton = this.createDOMelement('button');
+    this.submitButton.textContent = 'Add to list';
+
+    this.form.append(this.input, this.submitButton);
+
+    // list element
+    this.itemList = this.createDOMelement('ul', 'checklist');
+
+    this.app.append(this.title, this.form, this.itemList);
+  }
 
   createDOMelement(tag, className) {
     const element = document.createElement(tag);
