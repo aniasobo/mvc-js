@@ -73,8 +73,10 @@ class View {
 
     // list element
     this.list = this.createDOMelement('ul', 'checklist');
-
     this.app.append(this.title, this.form, this.list);
+
+    this._temporaryItemText;
+    this._initLocalListeners();
   }
 
   createDOMelement(tag, className) {
@@ -159,12 +161,31 @@ class View {
     });
   }
 
+  bindEditItem(handler) {
+    this.list.addEventListener('focusout', event => {
+      if (this._temporaryItemText) {
+        const id = parseInt(event.target.parentElement.id);
+
+        handler(id, this._temporaryItemText);
+        this._temporaryItemText = '';
+      }
+    });
+  }
+
   get _itemText() {
     return this.input.value;
   }
 
   _resetInput() {
     this.input.value = '';
+  }
+
+  _initLocalListeners() {
+    this.list.addEventListener('input', event => {
+      if (event.target.className === 'editable') {
+        this._temporaryItemText = event.target.innerText;
+      }
+    })
   }
 }
 
@@ -176,6 +197,7 @@ class Controller {
     this.view.bindAddItem(this.handleAddition);
     this.view.bindDeleteItem(this.handleDeletion);
     this.view.bindToggleItem(this.handleToggle);
+    this.view.bindEditItem(this.handleEdition);
     this.model.bindListChange(this.onChange);
   }
 
