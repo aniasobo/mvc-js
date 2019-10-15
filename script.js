@@ -14,18 +14,28 @@ class Model {
     }
 
     this.list.push(newItem);
+    
+    this.onChange(this.list);
   }
 
   editItem(id, newText) {
     this.list = this.list.map(item => item.id === id ? { id: item.id, text: newText, complete: item.complete } : item);
+
+    this.onChange(this.list);
   }
 
   deleteItem(id) {
     this.list = this.list.filter(item => item.id !== id);
+
+    this.onChange(this.list);
   }
 
   toggleCheckOnItem(id) {
     this.list = this.list.map(item => item.id === id ? { id: item.id, text: item.text, complete: !item.complete } : item);
+  }
+
+  bindListChange(callback) {
+    this.onChange = callback;
   }
 }
 
@@ -150,10 +160,11 @@ class Controller {
   constructor(model, view) {
     this.model = model;
     this.view = view;
-    this.onChange = (this.model.list);
+    this.onChange(this.model.list);
     this.view.bindAddItem(this.handleAddition);
     this.view.bindDeleteItem(this.handleDeletion);
     this.view.bindToggleItem(this.handleToggle);
+    this.model.bindListChange(this.onChange);
   }
 
   onChange = list => {
