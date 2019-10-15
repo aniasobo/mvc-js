@@ -1,9 +1,10 @@
 class Model {
   constructor() {
-    this.list = [
-      { id: 0, text: "Make coffee ☕️", checked: false},
-      { id: 1, text: "Drink coffee ☕️", checked: false},
-    ]
+    this.list = JSON.parse(localStorage.getItem('list')) || [];
+    // [
+    //   { id: 0, text: "Make coffee ☕️", checked: false},
+    //   { id: 1, text: "Drink coffee ☕️", checked: false},
+    // ]
   }
 
   addItem(item) {
@@ -14,18 +15,24 @@ class Model {
     }
 
     this.list.push(newItem);
-    
+
+    this._commit(this.list);
+
     this.onChange(this.list);
   }
 
   editItem(id, newText) {
     this.list = this.list.map(item => item.id === id ? { id: item.id, text: newText, complete: item.complete } : item);
 
+    this._commit(this.list);
+
     this.onChange(this.list);
   }
 
   deleteItem(id) {
     this.list = this.list.filter(item => item.id !== id);
+
+    this._commit(this.list);
 
     this.onChange(this.list);
   }
@@ -36,6 +43,11 @@ class Model {
 
   bindListChange(callback) {
     this.onChange = callback;
+  }
+
+  _commit(list) {
+    this.onChange(list);
+    localStorage.setItem('list', JSON.stringify(list));
   }
 }
 
