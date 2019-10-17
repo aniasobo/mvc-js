@@ -59,7 +59,7 @@ class View {
     this.input.type = 'text';
     this.input.placeholder = 'add item';
     this.input.name = 'new item';
-    this.submitButton = this.createDOMelement('a');
+    this.submitButton = this.createDOMelement('a', 'add');
     this.submitButton.textContent = 'Add to list';
 
     this.form.append(this.input, this.submitButton);

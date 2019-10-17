@@ -103,6 +103,13 @@ a:active {
   transition:opacity .15s ease-out;
 }
 
+.add {
+  background-color: #ffdfdf;
+  border: solid 1px #111;
+  border-width: .125rem;
+  color: #111;
+}
+
 ul {
   padding-left:0;
   list-style-type:none;
