@@ -53,6 +53,11 @@ body {
 form {
   color:rgba(0,0,0,.8);
   padding:2rem;
+  max-width: 30em;
+  border-style: solid;
+  border-width: 1px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 input {
@@ -62,12 +67,14 @@ input {
   border-color:rgba(0,0,0,.2);
   margin-bottom:.5rem;
   padding:.5rem;
-  width:100%;
   display:block;
+  width: 100%;
 }
 
 .mr2 {
   margin-right:.5rem;
+  display: inline-block;
+  width: auto;
 }
 
 a {
@@ -144,12 +151,14 @@ li {
 
 span {
   font-size:1rem;
-  display:block;
+  display:inline-block;
   line-height:1.5;
   max-width:30em;
 }
 
 .lh-title {
   line-height:1.25;
+  font-size: 4rem;
+  font-weight: bold;
 }
 

@@ -57,10 +57,10 @@ class View {
     this.form = this.createDOMelement('form');
     this.input = this.createDOMelement('input');
     this.input.type = 'text';
-    this.input.placeholder = 'add item';
+    this.input.placeholder = 'What do you want to do?';
     this.input.name = 'new item';
     this.submitButton = this.createDOMelement('a', 'add');
-    this.submitButton.textContent = 'Add to list';
+    this.submitButton.textContent = 'Add it to list';
 
     this.form.append(this.input, this.submitButton);
 
@@ -116,7 +116,7 @@ class View {
         }
 
         const deleteButton = this.createDOMelement('a');
-        deleteButton.textContent = 'Delete';
+        deleteButton.textContent = 'Delete this';
 
         li.append(checkbox, span, deleteButton);
 
