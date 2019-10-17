@@ -1,10 +1,7 @@
 class Model {
   constructor() {
-    this.list = JSON.parse(localStorage.getItem('list')) || [];
-    // [
-    //   { id: 0, text: "Make coffee ☕️", checked: false},
-    //   { id: 1, text: "Drink coffee ☕️", checked: false},
-    // ]
+    this.list = JSON.parse(localStorage.getItem('list')) || [{ id: 0, text: "Make coffee ☕️", checked: false},
+    { id: 1, text: "Drink coffee ☕️", checked: false}];
   }
 
   addItem(item) {
@@ -17,28 +14,24 @@ class Model {
     this.list.push(newItem);
 
     this._commit(this.list);
-
-    this.onChange(this.list);
   }
 
   editItem(id, newText) {
     this.list = this.list.map(item => item.id === id ? { id: item.id, text: newText, complete: item.complete } : item);
 
     this._commit(this.list);
-
-    this.onChange(this.list);
   }
 
   deleteItem(id) {
     this.list = this.list.filter(item => item.id !== id);
 
     this._commit(this.list);
-
-    this.onChange(this.list);
   }
 
   toggleCheckOnItem(id) {
     this.list = this.list.map(item => item.id === id ? { id: item.id, text: item.text, complete: !item.complete } : item);
+
+    this._commit(this.list);
   }
 
   bindListChange(callback) {
@@ -57,7 +50,7 @@ class View {
     this.app = this.getDOMelement('#root');
 
     // title
-    this.title = this.createDOMelement('h1');
+    this.title = this.createDOMelement('h1', 'lh-title');
     this.title.textContent = 'Checklist App';
 
     // form with input and submit
@@ -66,16 +59,16 @@ class View {
     this.input.type = 'text';
     this.input.placeholder = 'add item';
     this.input.name = 'new item';
-    this.submitButton = this.createDOMelement('button');
+    this.submitButton = this.createDOMelement('a');
     this.submitButton.textContent = 'Add to list';
 
     this.form.append(this.input, this.submitButton);
 
     // list element
-    this.list = this.createDOMelement('ul', 'checklist');
+    this.list = this.createDOMelement('ul');
     this.app.append(this.title, this.form, this.list);
 
-    this._temporaryItemText;
+    this._temporaryItemText = '';
     this._initLocalListeners();
   }
 
@@ -106,7 +99,7 @@ class View {
         const li = this.createDOMelement('li');
         li.id = item.id;
 
-        const checkbox = this.createDOMelement('input');
+        const checkbox = this.createDOMelement('input', 'mr2');
         checkbox.type = 'checkbox';
         checkbox.checked = item.complete;
 
@@ -115,14 +108,14 @@ class View {
         span.classList.add('editable');
 
         if (item.complete) {
-          const strike = this.createDOMelement('s');
+          const strike = this.createDOMelement('s', 'strike');
           strike.textContent = item.text;
           span.append(strike);
         } else {
           span.textContent = item.text;
         }
 
-        const deleteButton = this.createDOMelement('button', 'delete');
+        const deleteButton = this.createDOMelement('a');
         deleteButton.textContent = 'Delete';
 
         li.append(checkbox, span, deleteButton);
@@ -138,7 +131,7 @@ class View {
 
       if (this._itemText) {
         handler(this._itemText);
-        this._resetInput;
+        this._resetInput();
       }
     });
   }
@@ -194,11 +187,11 @@ class Controller {
     this.model = model;
     this.view = view;
     this.onChange(this.model.list);
+    this.model.bindListChange(this.onChange);
     this.view.bindAddItem(this.handleAddition);
     this.view.bindDeleteItem(this.handleDeletion);
     this.view.bindToggleItem(this.handleToggle);
     this.view.bindEditItem(this.handleEdition);
-    this.model.bindListChange(this.onChange);
   }
 
   onChange = list => {
