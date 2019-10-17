@@ -99,7 +99,7 @@ class View {
         const li = this.createDOMelement('li');
         li.id = item.id;
 
-        const checkbox = this.createDOMelement('input', 'mr2');
+        const checkbox = this.createDOMelement('input', 'tick');
         checkbox.type = 'checkbox';
         checkbox.checked = item.complete;
 
@@ -116,7 +116,7 @@ class View {
         }
 
         const deleteButton = this.createDOMelement('a');
-        deleteButton.textContent = 'Delete this';
+        deleteButton.textContent = 'x';
 
         li.append(checkbox, span, deleteButton);
 
@@ -138,7 +138,7 @@ class View {
 
   bindDeleteItem(handler) {
     this.list.addEventListener('click', event => {
-      if (event.target.className === 'delete') {
+      if (event.target.text === 'x') {
         const id = parseInt(event.target.parentElement.id);
         handler(id);
       }
@@ -147,6 +147,7 @@ class View {
 
   bindToggleItem(handler) {
     this.list.addEventListener('change', event => {
+      console.log("CHECKBOX EVENT", event);
       if (event.target.type === 'checkbox') {
         const id = parseInt(event.target.parentElement.id);
         handler(id);
