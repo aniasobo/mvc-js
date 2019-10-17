@@ -54,8 +54,6 @@ form {
   color:rgba(0,0,0,.8);
   padding:2rem;
   max-width: 30em;
-  border-style: solid;
-  border-width: 1px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -74,7 +72,9 @@ input {
 .mr2 {
   margin-right:.5rem;
   display: inline-block;
-  width: auto;
+  width: 1rem;
+  height: 1rem;
+  flex: none;
 }
 
 a {
@@ -137,27 +137,28 @@ p {
 
 li {
   line-height:1.5;
-  padding-top:1rem;
-  padding-bottom:1rem;
-  border-style:solid;
+  padding: 0.5rem 0.5rem;
+  display: flex;
   border-width:1px;
   border-top-width:0;
   border-left-width:0;
   border-style:dotted;
   border-right-width:0;
   border-color:rgba(0,0,0,.3);
-
+  align-items: center;
 }
 
 span {
-  font-size:1rem;
-  display:inline-block;
-  line-height:1.5;
-  max-width:30em;
+  font-size: 1rem;
+  display: inline-block;
+  line-height: 1.5;
+  max-width: 30em;
+  flex-grow: 2;
+  text-align: left;
 }
 
 .lh-title {
-  line-height:1.25;
+  line-height: 1.25;
   font-size: 4rem;
   font-weight: bold;
 }
